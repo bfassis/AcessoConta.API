@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Transferencia\Dto\" />
+    <Folder Include="Transferencia\Facade\" />
+    <Folder Include="Transferencia\Messages\Response\" />
+    <Folder Include="Transferencia\Messages\Request\" />
+    <Folder Include="Transferencia\Contract\" />
+    <Folder Include="Transferencia\AutoMapper\" />
+  </ItemGroup>
+
+</Project>

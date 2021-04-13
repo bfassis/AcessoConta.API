@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Transferencia\Contracts\Service\" />
+    <Folder Include="Transferencia\Entity\" />
+    <Folder Include="Transferencia\Validators\" />
+    <Folder Include="Transferencia\Service\" />
+  </ItemGroup>
+
+</Project>
