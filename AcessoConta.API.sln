@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcessoConta.Api.Core.Orm", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcessoConta.Api.Common", "src\3.Common\AcessoConta.Api.Common\AcessoConta.Api.Common.csproj", "{0082B4B1-C8CC-4188-8E77-8CCC3507C5C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcessoConta.Conta.Infra.CrossCutting.IoC", "src\2.Contexts\Conta\3.Infra\3.1 CrossCutting\AcessoConta.Conta.Infra.CrossCutting.IoC\AcessoConta.Conta.Infra.CrossCutting.IoC.csproj", "{C227B864-D18A-4411-BD48-863E254CCC82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{0082B4B1-C8CC-4188-8E77-8CCC3507C5C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0082B4B1-C8CC-4188-8E77-8CCC3507C5C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0082B4B1-C8CC-4188-8E77-8CCC3507C5C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C227B864-D18A-4411-BD48-863E254CCC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C227B864-D18A-4411-BD48-863E254CCC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C227B864-D18A-4411-BD48-863E254CCC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C227B864-D18A-4411-BD48-863E254CCC82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{313256B2-2748-4088-A85E-58936DF88BC3} = {0958D2B1-BFAD-4953-A79B-4D66D4B0A3EB}
 		{E7075C59-E04F-4D9A-873D-23C52F378272} = {DEAE48B0-C9C7-407C-917E-47848E808D48}
 		{0082B4B1-C8CC-4188-8E77-8CCC3507C5C5} = {E7348944-874A-4675-8C08-741DA14751FF}
+		{C227B864-D18A-4411-BD48-863E254CCC82} = {DCAC5FDD-E638-46E4-A71C-AE2F7B015DDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D143301-B6E9-486B-984C-20571885B191}

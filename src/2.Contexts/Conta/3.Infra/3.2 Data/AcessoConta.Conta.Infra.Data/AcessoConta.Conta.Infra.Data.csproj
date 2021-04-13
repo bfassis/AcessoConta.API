@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Transferencia\Repository\" />
+    <ProjectReference Include="..\..\..\2.Domain\AcessoConta.Api.Conta.Domain\AcessoConta.Api.Conta.Domain.csproj" />
   </ItemGroup>
 
 </Project>

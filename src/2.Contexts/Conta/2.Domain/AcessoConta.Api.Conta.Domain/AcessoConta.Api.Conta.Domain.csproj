@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Transferencia\Contracts\Service\" />
     <Folder Include="Transferencia\Validators\" />
-    <Folder Include="Transferencia\Service\" />
   </ItemGroup>
 
   <ItemGroup>
