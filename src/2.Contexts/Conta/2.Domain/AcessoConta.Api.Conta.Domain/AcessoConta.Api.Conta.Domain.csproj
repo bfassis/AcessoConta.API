@@ -6,9 +6,12 @@
 
   <ItemGroup>
     <Folder Include="Transferencia\Contracts\Service\" />
-    <Folder Include="Transferencia\Entity\" />
     <Folder Include="Transferencia\Validators\" />
     <Folder Include="Transferencia\Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\3.Common\AcessoConta.Api.Common\AcessoConta.Api.Common.csproj" />
   </ItemGroup>
 
 </Project>

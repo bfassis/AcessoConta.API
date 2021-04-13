@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Transferencia\Dto\" />
-    <Folder Include="Transferencia\Facade\" />
-    <Folder Include="Transferencia\Messages\Response\" />
-    <Folder Include="Transferencia\Messages\Request\" />
-    <Folder Include="Transferencia\Contract\" />
-    <Folder Include="Transferencia\AutoMapper\" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\2.Domain\AcessoConta.Api.Conta.Domain\AcessoConta.Api.Conta.Domain.csproj" />
   </ItemGroup>
 
 </Project>
