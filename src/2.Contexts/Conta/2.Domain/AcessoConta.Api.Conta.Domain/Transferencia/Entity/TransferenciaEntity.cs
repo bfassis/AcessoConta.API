@@ -1,11 +1,13 @@
 ﻿using AcessoConta.Api.Common.Enums.Transacao;
+using AcessoConta.Api.Common.Validators;
+using AcessoConta.Api.Conta.Domain.Transferencia.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
 {
-    public class TransferenciaEntity
+    public class TransferenciaEntity : ValidatorBase
     {
         public Guid IdTransferencia { get; protected set; }
         public virtual string ContaOrigem { get; protected set; }
@@ -18,7 +20,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public TransferenciaEntity()
         { }
 
-        public TransferenciaEntity( string contaOrigem, string contaDestino, float valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia )
+        public TransferenciaEntity(string contaOrigem, string contaDestino, float valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
         {
             IdTransferencia = Guid.NewGuid();
             ContaOrigem = contaOrigem;
@@ -26,7 +28,14 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
             Valor = valor;
             TipoTransacao = tipoTransacao;
             StatusTrasferencia = statusTransferencia;
-            DataTransferencia = DateTime.Now;        
+            DataTransferencia = DateTime.Now;
+
+            Validate(this, new TransferenciaValidator());
+        }
+
+        public virtual void Validate(TransferenciaEntity entity)
+        {
+            Validate(entity, new TransferenciaValidator());
         }
 
     }

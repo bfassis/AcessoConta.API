@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Transferencia\Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\3.Common\AcessoConta.Api.Common\AcessoConta.Api.Common.csproj" />
     <ProjectReference Include="..\..\3.Infra\3.1 CrossCutting\AcessoConta.Conta.Infra.CrossCutting.HttpClient\AcessoConta.Conta.Infra.CrossCutting.HttpClient.csproj" />
   </ItemGroup>

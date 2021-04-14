@@ -9,5 +9,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service
     public interface ITransferenciaService
     {
         Task Transferir(TransferenciaEntity transferenciaEntity);
+        Task<bool> ContasExistentes(TransferenciaEntity transferenciaEntity);
+        Task<bool> ValidarSaldoConta(string accountNumber);
     }
 }

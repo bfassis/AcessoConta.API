@@ -1,4 +1,5 @@
-﻿using AcessoConta.Api.Common.Enums.Notification;
+﻿using FluentValidation.Results;
+using AcessoConta.Api.Common.Enums.Notification;
 using AcessoConta.Api.Common.Notifications.Model;
 using System;
 using System.Collections.Generic;
@@ -45,12 +46,12 @@ namespace AcessoConta.Api.Common.Notifications
             _notifications.AddRange(notifications);
         }
 
-        //public void AddNotifications(ValidationResult validationResult)
-        //{
-        //    foreach (var error in validationResult.Errors)
-        //    {
-        //        AddNotification(error.PropertyName, error.ErrorMessage);
-        //    }
-        //}
+        public void AddNotifications(ValidationResult validationResult)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                AddNotification(error.PropertyName, error.ErrorMessage);
+            }
+        }
     }
 }
