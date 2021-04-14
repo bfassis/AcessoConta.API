@@ -1,4 +1,6 @@
+using AcessoConta.Api.Common.Notifications;
 using AcessoConta.Conta.Infra.CrossCutting.IoC;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,8 +30,19 @@ namespace AcessoConta.Api
         {
             services.AddControllers();
 
+            services.AddScoped<INotification, Notification>();
+
+            services.AddHttpClient("AcessoApi", opt =>
+            {
+                opt.BaseAddress = new Uri("http://localhost:5000/api/");
+                //var authenticatedUser = services.BuildServiceProvider().GetRequiredService<IAuthenticatedUser>();
+                //opt.DefaultRequestHeaders.Add("Authorization", authenticatedUser.User.AcessToken);
+            });
+
+            
 
             NativeInjectorTransferencia.Setup(services);
+            
 
 
         }

@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\1.Application\AcessoConta.Api.Conta.Application\AcessoConta.Api.Conta.Application.csproj" />
     <ProjectReference Include="..\..\3.2 Data\AcessoConta.Conta.Infra.Data\AcessoConta.Conta.Infra.Data.csproj" />
+    <ProjectReference Include="..\AcessoConta.Conta.Infra.CrossCutting.HttpClient\AcessoConta.Conta.Infra.CrossCutting.HttpClient.csproj" />
   </ItemGroup>
 
 </Project>
