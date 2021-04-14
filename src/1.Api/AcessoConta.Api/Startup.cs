@@ -39,7 +39,8 @@ namespace AcessoConta.Api
                 //opt.DefaultRequestHeaders.Add("Authorization", authenticatedUser.User.AcessToken);
             });
 
-            
+            services.AddSwaggerGen();
+
 
             NativeInjectorTransferencia.Setup(services);
             
@@ -60,6 +61,14 @@ namespace AcessoConta.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("../swagger/v1/swagger.json", "Acesso Api");
+                options.DisplayRequestDuration();
+            });
 
             app.UseEndpoints(endpoints =>
             {

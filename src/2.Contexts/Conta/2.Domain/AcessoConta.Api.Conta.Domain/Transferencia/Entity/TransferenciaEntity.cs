@@ -15,6 +15,9 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public EStatusTransferencia StatusTrasferencia { get; protected set; }
         public DateTime DataTransferencia { get; protected set; }
 
+        public TransferenciaEntity()
+        { }
+
         public TransferenciaEntity( string contaOrigem, string contaDestino, float valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia )
         {
             IdTransferencia = Guid.NewGuid();

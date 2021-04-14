@@ -17,6 +17,11 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.AutoMapper
                     .ForMember(dest => dest.ContaOrigem, opt => opt.MapFrom(src => src.AccountOrigin))
                     .ForMember(dest => dest.Valor, opt => opt.MapFrom(src => src.Value));
 
+            CreateMap<TransferenciaEntity, TransferRequest>()
+                   .ForMember(dest => dest.AccountDestination, opt => opt.MapFrom(src => src.ContaDestino))
+                   .ForMember(dest => dest.AccountOrigin, opt => opt.MapFrom(src => src.ContaOrigem))
+                   .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Valor));
+
             CreateMap<TransferenciaEntity, TransferResponse>()
                    .ForMember(dest => dest.transactionId, opt => opt.MapFrom(src => src.IdTransferencia));
         }

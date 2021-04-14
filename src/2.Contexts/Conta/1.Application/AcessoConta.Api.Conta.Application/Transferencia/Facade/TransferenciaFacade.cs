@@ -24,13 +24,22 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Facade
 
         public async Task<TransferResponse> Trasnferir(TransferRequest request)
         {
-            var entity = _mapper.Map<TransferenciaEntity>(request);
+            try
+            {
+                var entity = _mapper.Map<TransferenciaEntity>(request);
 
-            var response = new TransferResponse();
+                var response = new TransferResponse();
 
-            await _transferenciaService.Transferir(entity);
+                await _transferenciaService.Transferir(entity);
 
-            return response;
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
     }
 }
