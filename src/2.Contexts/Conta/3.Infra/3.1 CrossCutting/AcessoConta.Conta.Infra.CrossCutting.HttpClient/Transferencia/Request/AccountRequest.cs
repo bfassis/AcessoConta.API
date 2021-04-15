@@ -8,7 +8,7 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Request
     public class AccountRequest
     {
         public string AccountNumber { get; set; }
-        public float Value { get; set; }
+        public decimal Value { get; set; }
         public AccountTransactionType Type { get; set; }
 
     }

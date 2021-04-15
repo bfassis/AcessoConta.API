@@ -42,10 +42,7 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Facade
                     return response;
                 }
 
-                if (await _transferenciaService.ContasExistentes(transferenciaEntity))
-                    await _transferenciaService.Transferir(transferenciaEntity);
-                else
-                    _notification.AddNotification("Accont Error", "Contas inválidas.");
+                await _transferenciaService.Transferir(transferenciaEntity);
 
                 return response;
             }

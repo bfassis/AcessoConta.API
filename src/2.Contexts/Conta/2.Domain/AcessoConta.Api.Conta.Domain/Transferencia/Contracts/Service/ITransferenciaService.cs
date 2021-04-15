@@ -1,4 +1,5 @@
 ﻿using AcessoConta.Api.Conta.Domain.Transferencia.Entity;
+using AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,6 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service
     {
         Task Transferir(TransferenciaEntity transferenciaEntity);
         Task<bool> ContasExistentes(TransferenciaEntity transferenciaEntity);
-        Task<bool> ValidarSaldoConta(string accountNumber);
+        Task<BalanceAdjustmentResponse> ValidarConta(string accountNumber);
     }
 }

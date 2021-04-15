@@ -10,8 +10,8 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Contract
 {
     public interface IAccountHttpClient
     {
-        Task<IEnumerable<BalanceAdjustmentResponse>> ObterAccounts();
+        Task<ListBalanceAdjustmentResponse> ObterAccounts();
         Task<BalanceAdjustmentResponse> ObterAccountPorAccount(string account);
-        Task<BaseResponse> InserirTrasactionAccount(AccountRequest accountRequest);
+        Task<AccountResponse> InserirTrasactionAccount(AccountRequest accountRequest);
     }
 }

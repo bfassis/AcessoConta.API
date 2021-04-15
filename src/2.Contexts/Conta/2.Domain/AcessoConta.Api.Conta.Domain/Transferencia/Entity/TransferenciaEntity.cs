@@ -12,7 +12,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public Guid IdTransferencia { get; protected set; }
         public virtual string ContaOrigem { get; protected set; }
         public virtual string ContaDestino { get; protected set; }
-        public virtual float Valor { get; protected set; }
+        public virtual decimal Valor { get; protected set; }
         public ETipoTransacao TipoTransacao { get; protected set; }
         public EStatusTransferencia StatusTrasferencia { get; protected set; }
         public DateTime DataTransferencia { get; protected set; }
@@ -20,7 +20,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public TransferenciaEntity()
         { }
 
-        public TransferenciaEntity(string contaOrigem, string contaDestino, float valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
+        public TransferenciaEntity(string contaOrigem, string contaDestino, decimal valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
         {
             IdTransferencia = Guid.NewGuid();
             ContaOrigem = contaOrigem;

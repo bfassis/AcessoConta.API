@@ -12,9 +12,6 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Validato
         public BalanceAdjustmentValidator()
         {
             ValidateAccountNumber();
-            ValidateValue();
-
-
         }
 
         private void ValidateAccountNumber()
@@ -24,14 +21,6 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Validato
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("A Conta informada não existe");
-        }
-
-        private void ValidateValue()
-        {
-            RuleFor(i => i.Balance)
-                .Cascade(CascadeMode.Stop)
-                .GreaterThan(0)
-                .WithMessage("Conta sem saldo para transferencia");
         }
 
     }

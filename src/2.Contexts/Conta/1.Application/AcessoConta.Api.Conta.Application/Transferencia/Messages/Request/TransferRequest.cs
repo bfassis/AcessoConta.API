@@ -8,7 +8,7 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Messages.Request
     {
         public string AccountOrigin { get; set; }
         public string AccountDestination { get; set; }
-        public float Value { get; set; }
+        public decimal Value { get; set; }
 
     }
 }
