@@ -18,7 +18,10 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public DateTime DataTransferencia { get; protected set; }
 
         public TransferenciaEntity()
-        { }
+        {
+            TipoTransacao = ETipoTransacao.Credito;
+            StatusTrasferencia = EStatusTransferencia.Sucesso;
+        }
 
         public TransferenciaEntity(string contaOrigem, string contaDestino, decimal valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
         {
@@ -32,6 +35,22 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
 
             Validate(this, new TransferenciaValidator());
         }
+
+        public virtual Guid GerarIdTransferencia()
+        {
+           return IdTransferencia = Guid.NewGuid();
+        }
+
+        public virtual void AtribuirTipoTransacao(ETipoTransacao eTipoTransacao)
+        {
+            TipoTransacao = eTipoTransacao;        
+        }
+
+        public virtual void AtribuirStatusTransferencia(EStatusTransferencia eStatusTransferencia)
+        {
+            StatusTrasferencia = eStatusTransferencia;
+        }
+
 
         public virtual void Validate(TransferenciaEntity entity)
         {

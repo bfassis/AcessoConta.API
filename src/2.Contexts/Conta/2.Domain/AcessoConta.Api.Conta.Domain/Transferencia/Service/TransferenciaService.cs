@@ -1,5 +1,6 @@
 ﻿using AcessoConta.Api.Common.Messages.Response;
 using AcessoConta.Api.Common.Notifications;
+using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Repositoty;
 using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service;
 using AcessoConta.Api.Conta.Domain.Transferencia.Entity;
 using AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Contract;
@@ -17,13 +18,15 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
     {
         private readonly IAccountHttpClient _accountHttpClient;
         private readonly INotification _notification;
+        private readonly ITransferenciaRepository _transferenciaRepository;
 
-        public TransferenciaService(IAccountHttpClient accountHttpClient, INotification notification)
+        public TransferenciaService(IAccountHttpClient accountHttpClient, INotification notification, ITransferenciaRepository transferenciaRepository)
         {
             _accountHttpClient = accountHttpClient;
 #pragma warning disable CS1717 // Assignment made to same variable
             _notification = notification;
 #pragma warning restore CS1717 // Assignment made to same variable
+            _transferenciaRepository = transferenciaRepository;
         }
 
         public async Task<bool> ContasExistentes(TransferenciaEntity transferenciaEntity)
@@ -74,7 +77,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
                 return accountResponse;
             }
 
-            if (account.Balance <= 0)
+            if (account.Balance < transferenciaEntity.Valor)
             {
                 _notification.AddNotification("Conta", "Conta sem saldo para transferencia");
                 accountResponse.Success = false;
@@ -87,6 +90,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
                 Type = Common.Enums.Transacao.AccountTransactionType.Debit,
                 Value = transferenciaEntity.Valor
             };
+
 
             accountResponse = await _accountHttpClient.InserirTrasactionAccount(request);
 
@@ -116,6 +120,11 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
 
             accountResponse = await _accountHttpClient.InserirTrasactionAccount(request);
 
+            if (!accountResponse.Success)
+                transferenciaEntity.AtribuirStatusTransferencia(Common.Enums.Transacao.EStatusTransferencia.Erro);
+
+            await _transferenciaRepository.InserirTransferencia(transferenciaEntity);
+
             return accountResponse;
         }
 
@@ -141,6 +150,11 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
             };
 
             accountResponse = await _accountHttpClient.InserirTrasactionAccount(request);
+
+            if (!accountResponse.Success)
+                transferenciaEntity.AtribuirStatusTransferencia(Common.Enums.Transacao.EStatusTransferencia.Erro);
+
+            await _transferenciaRepository.InserirTransferencia(transferenciaEntity);
 
             return accountResponse;
         }

@@ -10,7 +10,7 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Response
     {
         public int Id { get; set; }
         public string AccountNumber { get; set; }
-        public float Balance { get; set; }
+        public decimal Balance { get; set; }
 
 
         public virtual void Validate(BalanceAdjustmentResponse response)

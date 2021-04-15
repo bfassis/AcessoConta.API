@@ -1,4 +1,5 @@
 using AcessoConta.Api.Common.Notifications;
+using AcessoConta.Api.Core.Orm.Dapper.Repository;
 using AcessoConta.Conta.Infra.CrossCutting.IoC;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,9 @@ namespace AcessoConta.Api
 
             services.AddSwaggerGen();
 
+            services.AddScoped<AcessoContaDataBaseContextDapper>();
+
+            services.AddScoped<RepositoryBaseDapper<AcessoContaDataBaseContextDapper>>();
 
             NativeInjectorTransferencia.Setup(services);
             

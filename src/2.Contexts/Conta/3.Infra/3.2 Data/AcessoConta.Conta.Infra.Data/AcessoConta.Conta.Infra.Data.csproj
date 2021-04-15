@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.78" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\4.Core\AcessoConta.Api.Core.Orm\AcessoConta.Api.Core.Orm.csproj" />
     <ProjectReference Include="..\..\..\2.Domain\AcessoConta.Api.Conta.Domain\AcessoConta.Api.Conta.Domain.csproj" />
   </ItemGroup>
 
