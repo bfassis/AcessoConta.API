@@ -1,5 +1,6 @@
 ﻿using AcessoConta.Api.Common.Notifications;
 using AcessoConta.Api.Conta.Application.Transferencia.Contract;
+using AcessoConta.Api.Conta.Application.Transferencia.Dto;
 using AcessoConta.Api.Conta.Application.Transferencia.Messages.Request;
 using AcessoConta.Api.Conta.Application.Transferencia.Messages.Response;
 using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service;
@@ -26,23 +27,38 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Facade
             _notification = notification;
         }
 
+        public async Task<TrasactionResponse> ConsultarTrasnferencia(string transactionId)
+        {
+            TrasactionResponse response = new TrasactionResponse();
+            //response.Data.Status = Common.Enums.Transacao.EStatusTransferencia.Confirmado.ToString();
+
+            
+            var ret = await _transferenciaService.ConsultarTrasnferencia(transactionId);
+            response.Data = _mapper.Map<TrasactionDto>(ret);
+
+            return response;
+        }
+
         public async Task<TransferResponse> Trasnferir(TransferRequest request)
         {
             try
             {
                 TransferResponse response = new TransferResponse();
 
-                var transferenciaEntity = _mapper.Map<TransferenciaEntity>(request);
+                var transferenciaDebitoEntity = _mapper.Map<TransferenciaDebitoEntity>(request);
+                var transferenciaCreditoEntity = _mapper.Map<TrasnferenciaCreditoEntity>(request);
 
-                transferenciaEntity.Validate(transferenciaEntity);
+                transferenciaDebitoEntity.Validate(transferenciaDebitoEntity);
+                transferenciaCreditoEntity.Validate(transferenciaCreditoEntity);
 
-                if (!transferenciaEntity.Valid)
+                if (!(transferenciaDebitoEntity.Valid || transferenciaCreditoEntity.Valid))
                 {
-                    _notification.AddNotifications(transferenciaEntity.ValidationResult);
+                    _notification.AddNotifications(transferenciaDebitoEntity.ValidationResult);
+                    _notification.AddNotifications(transferenciaCreditoEntity.ValidationResult);
                     return response;
                 }
 
-                await _transferenciaService.Transferir(transferenciaEntity);
+                response.Data.TransactionId = await _transferenciaService.Transferir(transferenciaDebitoEntity, transferenciaCreditoEntity);
 
                 return response;
             }

@@ -9,22 +9,29 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
 {
     public class TransferenciaEntity : ValidatorBase
     {
-        public Guid IdTransferencia { get; protected set; }
+        public int Id { get; protected set; }
+        public Guid? IdTransferencia { get; protected set; }
         public virtual string ContaOrigem { get; protected set; }
         public virtual string ContaDestino { get; protected set; }
+        public virtual string Conta { get; protected set; }
         public virtual decimal Valor { get; protected set; }
         public ETipoTransacao TipoTransacao { get; protected set; }
         public EStatusTransferencia StatusTrasferencia { get; protected set; }
         public DateTime DataTransferencia { get; protected set; }
+        public TrasnferenciaErroEntity TrasnferenciaErroEntity { get; protected set; }
 
         public TransferenciaEntity()
         {
-            TipoTransacao = ETipoTransacao.Credito;
-            StatusTrasferencia = EStatusTransferencia.Sucesso;
+            TrasnferenciaErroEntity = new TrasnferenciaErroEntity();
+            DataTransferencia = DateTime.Now;
+            //GerarIdTransferencia();
+            TrasnferenciaErroEntity.AtribuirIdTransferencia(IdTransferencia);
+
         }
 
-        public TransferenciaEntity(string contaOrigem, string contaDestino, decimal valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
+        public TransferenciaEntity(string conta, string contaOrigem, string contaDestino, decimal valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
         {
+            Conta = conta;
             IdTransferencia = Guid.NewGuid();
             ContaOrigem = contaOrigem;
             ContaDestino = contaDestino;
@@ -38,13 +45,19 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
 
         public virtual Guid GerarIdTransferencia()
         {
-           return IdTransferencia = Guid.NewGuid();
-        }
+            if (IdTransferencia == null)
+            {
+                IdTransferencia = Guid.NewGuid();
+                TrasnferenciaErroEntity.AtribuirIdTransferencia(IdTransferencia);
+            }
 
+            return (Guid)IdTransferencia;
+        }
         public virtual void AtribuirTipoTransacao(ETipoTransacao eTipoTransacao)
         {
-            TipoTransacao = eTipoTransacao;        
+            TipoTransacao = eTipoTransacao;
         }
+
 
         public virtual void AtribuirStatusTransferencia(EStatusTransferencia eStatusTransferencia)
         {
@@ -57,5 +70,11 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
             Validate(entity, new TransferenciaValidator());
         }
 
+        public virtual void AtribuirTransferenciaErro(TrasnferenciaErroEntity trasnferenciaErroEntity)
+        {
+            TrasnferenciaErroEntity = trasnferenciaErroEntity;
+        }
     }
+
+   
 }

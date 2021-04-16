@@ -8,5 +8,6 @@ namespace AcessoConta.Api.Common.Enums.Transacao
     {
         Credito = 1,
         Debito = 2,
+        Estorno = 3
     }
 }

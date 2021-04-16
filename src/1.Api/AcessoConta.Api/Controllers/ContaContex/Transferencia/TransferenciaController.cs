@@ -30,5 +30,12 @@ namespace AcessoConta.Api.Controllers.ContaContex.Transferencia
             var result = await _transferenciaFacade.Trasnferir(request);
             return Response(result);
         }
+
+        [HttpGet()]
+        public async Task<ActionResult<TrasactionResponse>> Get(string transactionId)
+        {
+            var result = await _transferenciaFacade.ConsultarTrasnferencia(transactionId);
+            return Response(result);
+        }
     }
 }

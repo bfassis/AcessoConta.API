@@ -10,5 +10,6 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Contract
     public interface ITransferenciaFacade
     {
         Task<TransferResponse> Trasnferir(TransferRequest request);
+        Task<TrasactionResponse> ConsultarTrasnferencia(string transactionId);
     }
 }

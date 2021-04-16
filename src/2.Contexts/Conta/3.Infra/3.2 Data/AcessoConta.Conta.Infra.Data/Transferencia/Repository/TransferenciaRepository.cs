@@ -1,9 +1,11 @@
 ﻿using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Repositoty;
 using AcessoConta.Api.Conta.Domain.Transferencia.Entity;
+using AcessoConta.Api.Conta.Domain.Transferencia.ReadModel;
 using AcessoConta.Api.Core.Orm.Dapper.Repository;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,27 +13,56 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
 {
     public class TransferenciaRepository : ITransferenciaRepository
     {
-		private readonly RepositoryBaseDapper<AcessoContaDataBaseContextDapper> _dapper;
+        private readonly RepositoryBaseDapper<AcessoContaDataBaseContextDapper> _dapper;
 
-		public TransferenciaRepository(RepositoryBaseDapper<AcessoContaDataBaseContextDapper> dapper)
-		{
-			_dapper = dapper;
-		}
+        public TransferenciaRepository(RepositoryBaseDapper<AcessoContaDataBaseContextDapper> dapper)
+        {
+            _dapper = dapper;
+        }
 
-		public async Task InserirTransferencia(TransferenciaEntity entity) => await _dapper.ExecuteQueryAsync(async connection =>
-		{
-			var query = @"
+        public async Task<TransferenciaReadModel> ConsultarTrasnferencia(string transactionId) => await _dapper.ExecuteQueryAsync(async connection =>
+        {
+            var query = @"
+							SELECT 
+							   T.ID	AS Id
+							  ,T.ID_TRANSACAO AS IdTransferencia
+							  ,T.STATUS AS StatusTrasferencia
+							  ,TE.ID AS Id
+							  ,TE.ID_TRANSACAO AS IdTransferencia
+							  ,TE.DSC_ERRO AS DescricaoErro
+						   FROM TRANSFERENCIA T
+						   LEFT JOIN TRANSFERENCIA_ERRO TE ON TE.ID_TRANSACAO = T.ID_TRANSACAO
+						   WHERE T.ID_TRANSACAO = @transactionId
+
+						";
+
+            var retorno = await connection.QueryAsync<TransferenciaReadModel, TrasnferenciaErroReadModel, TransferenciaReadModel>(
+                sql: query,
+                param: new { transactionId },
+                map: (trasnferencia, transferenciaErro) =>
+                {
+                    trasnferencia.TrasnferenciaErroReadModel = transferenciaErro;
+
+                    return trasnferencia;
+                }
+                );
+            return retorno?.FirstOrDefault();
+        });
+
+        public async Task InserirTransferencia(TransferenciaEntity entity) => await _dapper.ExecuteQueryAsync(async connection =>
+        {
+            //var chaveTransancao = entity.GerarIdTransferencia();
+
+            var query = @"
                             INSERT INTO [dbo].[TRANSFERENCIA]
-                                       ([CONTA_ORIGEM]
-                                       ,[CONTA_DESTINO]
+                                       ([CONTA]
                                        ,[VALOR_TRASFERENCIA]
                                        ,[ID_TRANSACAO]
                                        ,[STATUS]
                                        ,[TIPO_TRANSACAO]
                                        ,[DATA_TRANSACAO])
                                  VALUES
-                                       (@ContaOrigem,
-										@ContaDestino,
+                                       (@Conta,
 										@Valor,
 										@IdTransferencia,
 										@StatusTrasferencia,
@@ -39,16 +70,16 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
 										@DataTransferencia)
 							";
 
-			return await connection.QueryFirstOrDefaultAsync(sql: query, param: new
-			{
-				entity.ContaOrigem,
-				entity.ContaDestino,
-				entity.Valor,
-				@IdTransferencia = entity.GerarIdTransferencia(),
-				entity.StatusTrasferencia,
-				entity.TipoTransacao,
-				@DataTransferencia = DateTime.Now
-			});
-		});
-	}
+            return await connection.QueryFirstOrDefaultAsync(sql: query, param: new
+            {
+                entity.Conta,
+                entity.Valor,
+                @IdTransferencia = entity.IdTransferencia,
+                entity.StatusTrasferencia,
+                entity.TipoTransacao,
+                entity.DataTransferencia
+            });
+
+        });
+    }
 }

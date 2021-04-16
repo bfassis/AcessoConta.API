@@ -3,6 +3,7 @@ using AcessoConta.Api.Common.Notifications;
 using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Repositoty;
 using AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service;
 using AcessoConta.Api.Conta.Domain.Transferencia.Entity;
+using AcessoConta.Api.Conta.Domain.Transferencia.ReadModel;
 using AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Contract;
 using AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Request;
 using AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.Response;
@@ -48,24 +49,26 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
 
 
 
-        public async Task Transferir(TransferenciaEntity transferenciaEntity)
+        public async Task<string> Transferir(TransferenciaDebitoEntity transferenciaDebitoEntity, TrasnferenciaCreditoEntity trasnferenciaCreditoEntity)
         {
-            if ((await Debito(transferenciaEntity)).Success)
+            if ((await ExecutarTrasferencia(transferenciaDebitoEntity)).Success)
             {
-                if (!(await Credito(transferenciaEntity)).Success)
+                if (!(await ExecutarTrasferencia(trasnferenciaCreditoEntity)).Success)
                 {
-                    if (!(await EstornoCredito(transferenciaEntity)).Success)
+                    transferenciaDebitoEntity.AtribuirTipoTransacao(Common.Enums.Transacao.ETipoTransacao.Estorno);
+                    if (!(await ExecutarTrasferencia(trasnferenciaCreditoEntity)).Success)
                     {
                         _notification.AddNotification("Conta", "Problema a fazer o estorno.");
                     }
                 }
             }
 
+            return trasnferenciaCreditoEntity.IdTransferencia.ToString();
         }
 
-        private async Task<AccountResponse> Debito(TransferenciaEntity transferenciaEntity)
+        private async Task<AccountResponse> ExecutarTrasferencia(TransferenciaEntity transferenciaEntity)
         {
-            var account = await ValidarConta(transferenciaEntity.ContaOrigem);
+            var account = await ValidarConta(transferenciaEntity.Conta);
             var accountResponse = new AccountResponse();
 
             account.Validate(account);
@@ -77,44 +80,20 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
                 return accountResponse;
             }
 
-            if (account.Balance < transferenciaEntity.Valor)
+            if (transferenciaEntity.TipoTransacao == Common.Enums.Transacao.ETipoTransacao.Debito)
             {
-                _notification.AddNotification("Conta", "Conta sem saldo para transferencia");
-                accountResponse.Success = false;
-                return accountResponse;
+                if (account.Balance < transferenciaEntity.Valor)
+                {
+                    _notification.AddNotification("Conta", "Conta sem saldo para transferencia");
+                    accountResponse.Success = false;
+                    return accountResponse;
+                }
             }
 
             var request = new AccountRequest()
             {
-                AccountNumber = transferenciaEntity.ContaOrigem,
-                Type = Common.Enums.Transacao.AccountTransactionType.Debit,
-                Value = transferenciaEntity.Valor
-            };
-
-
-            accountResponse = await _accountHttpClient.InserirTrasactionAccount(request);
-
-            return accountResponse;
-        }
-
-        private async Task<AccountResponse> Credito(TransferenciaEntity transferenciaEntity)
-        {
-            var account = await ValidarConta(transferenciaEntity.ContaDestino);
-            var accountResponse = new AccountResponse();
-
-            account.Validate(account);
-
-            if (!account.Valid)
-            {
-                _notification.AddNotifications(account.ValidationResult);
-                accountResponse.Success = false;
-                return accountResponse;
-            }
-
-            var request = new AccountRequest()
-            {
-                AccountNumber = transferenciaEntity.ContaDestino,
-                Type = Common.Enums.Transacao.AccountTransactionType.Credit,
+                AccountNumber = transferenciaEntity.Conta,
+                Type = transferenciaEntity.TipoTransacao == Common.Enums.Transacao.ETipoTransacao.Debito ? Common.Enums.Transacao.AccountTransactionType.Debit : Common.Enums.Transacao.AccountTransactionType.Credit,
                 Value = transferenciaEntity.Valor
             };
 
@@ -128,35 +107,9 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Service
             return accountResponse;
         }
 
-        private async Task<AccountResponse> EstornoCredito(TransferenciaEntity transferenciaEntity)
+        public async Task<TransferenciaReadModel> ConsultarTrasnferencia(string transactionId)
         {
-            var account = await ValidarConta(transferenciaEntity.ContaDestino);
-            var accountResponse = new AccountResponse();
-
-            account.Validate(account);
-
-            if (!account.Valid)
-            {
-                _notification.AddNotifications(account.ValidationResult);
-                accountResponse.Success = false;
-                return accountResponse;
-            }
-
-            var request = new AccountRequest()
-            {
-                AccountNumber = transferenciaEntity.ContaOrigem,
-                Type = Common.Enums.Transacao.AccountTransactionType.Credit,
-                Value = transferenciaEntity.Valor
-            };
-
-            accountResponse = await _accountHttpClient.InserirTrasactionAccount(request);
-
-            if (!accountResponse.Success)
-                transferenciaEntity.AtribuirStatusTransferencia(Common.Enums.Transacao.EStatusTransferencia.Erro);
-
-            await _transferenciaRepository.InserirTransferencia(transferenciaEntity);
-
-            return accountResponse;
+            return await _transferenciaRepository.ConsultarTrasnferencia(transactionId);
         }
     }
 }

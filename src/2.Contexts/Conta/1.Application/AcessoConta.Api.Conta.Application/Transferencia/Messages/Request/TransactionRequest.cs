@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AcessoConta.Api.Conta.Application.Transferencia.Dto
+namespace AcessoConta.Api.Conta.Application.Transferencia.Messages.Request
 {
-    public class TransferenciaDto
+    public class TransactionRequest
     {
         public string TransactionId { get; set; }
     }

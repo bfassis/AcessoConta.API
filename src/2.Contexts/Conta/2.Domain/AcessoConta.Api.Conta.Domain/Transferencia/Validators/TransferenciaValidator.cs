@@ -11,8 +11,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Validators
         public TransferenciaValidator()
         {
             ValidateValor();
-            ValidateContaOrigem();
-            ValidateContaDestino();
+            ValidateConta();
 
         }
 
@@ -24,19 +23,13 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Validators
                 .WithMessage("O Valor não pode ser zero.");
         }
 
-        private void ValidateContaOrigem()
+        private void ValidateConta()
         {
-            RuleFor(i => i.ContaOrigem)
+            RuleFor(i => i.Conta)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("O Conta Origem é obrigatorio");
+                .WithMessage("A Conta  é obrigatorio");
         }
-        private void ValidateContaDestino()
-        {
-            RuleFor(i => i.ContaDestino)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                .WithMessage("O Conta Destino é obrigatorio");
-        }
+       
     }
 }
