@@ -33,7 +33,15 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
             var resposta = await PostAsJsonAsync($"{"Account/"}", new JsonContent(accountRequest));
             if (!resposta.IsSuccessStatusCode)
             {
-                _notification.AddNotification("Erro", "Operação nao efetuada.");
+                switch (resposta.StatusCode)
+                {
+                    case HttpStatusCode.InternalServerError:
+                        _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                        break;
+                    default:
+                        _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                        break;
+                }
                 response.Success = false;
                 return response;
             }
@@ -43,12 +51,25 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
 
         public async Task<BalanceAdjustmentResponse> ObterAccountPorAccount(string account)
         {
-            var response = new BalanceAdjustmentResponse();
+            var response = new BalanceAdjustmentResponse();         
 
             var resposta = await GetAsJsonAsync($"{"Account/"}{account}");
+          
             if (!resposta.IsSuccessStatusCode)
             {
-                _notification.AddNotification("Erro", "Account Api.");
+
+                switch (resposta.StatusCode)
+                {
+                    case HttpStatusCode.NotFound:
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                        break;
+                    default:
+                        _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                        break;
+                }
+
                 response.Success = false;
                 return response;
             }
@@ -65,7 +86,15 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
 
             if (!resposta.IsSuccessStatusCode)
             {
-                _notification.AddNotification("Erro", "Account Api.");
+                switch (resposta.StatusCode)
+                {
+                    case HttpStatusCode.InternalServerError:
+                        _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                        break;
+                    default:
+                        _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                        break;
+                }
                 response.Success = false;
                 return response;
             }

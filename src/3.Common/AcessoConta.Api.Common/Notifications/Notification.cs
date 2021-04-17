@@ -16,6 +16,8 @@ namespace AcessoConta.Api.Common.Notifications
 
         public bool HasNotifications => _notifications.Any();
 
+        public void ClearNotifications() => _notifications.Clear();
+
         public Notification()
         {
             _notifications = new List<NotificationModel>();

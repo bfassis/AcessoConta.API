@@ -8,6 +8,10 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Messages.Response
 {
     public class TransferResponse : BaseResponse
     {
+        public TransferResponse()
+        {
+            Data = new TransferenciaDto();
+        }
         public TransferenciaDto Data { get; set; }
     }
 }

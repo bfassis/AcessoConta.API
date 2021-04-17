@@ -14,5 +14,6 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Service
         Task<bool> ContasExistentes(TransferenciaEntity transferenciaEntity);
         Task<BalanceAdjustmentResponse> ValidarConta(string accountNumber);
         Task<TransferenciaReadModel> ConsultarTrasnferencia(string transactionId);
+        Task InserirTransferencia(TransferenciaEntity entity);
     }
 }

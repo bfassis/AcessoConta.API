@@ -10,6 +10,9 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Contracts.Repositoty
     public interface ITransferenciaRepository
     {
         Task InserirTransferencia(TransferenciaEntity entity);
+
+        Task InserirTransferenciaErro(TransferenciaErroEntity entity);
+
         Task<TransferenciaReadModel> ConsultarTrasnferencia(string transactionId);
     }
 }

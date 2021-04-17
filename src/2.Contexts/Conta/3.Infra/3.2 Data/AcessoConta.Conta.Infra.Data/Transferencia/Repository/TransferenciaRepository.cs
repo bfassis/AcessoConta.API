@@ -33,6 +33,7 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
 						   FROM TRANSFERENCIA T
 						   LEFT JOIN TRANSFERENCIA_ERRO TE ON TE.ID_TRANSACAO = T.ID_TRANSACAO
 						   WHERE T.ID_TRANSACAO = @transactionId
+                           ORDER BY T.STATUS desc
 
 						";
 
@@ -46,6 +47,7 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
                     return trasnferencia;
                 }
                 );
+
             return retorno?.FirstOrDefault();
         });
 
@@ -78,6 +80,25 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
                 entity.StatusTrasferencia,
                 entity.TipoTransacao,
                 entity.DataTransferencia
+            });
+
+        });
+
+        public async Task InserirTransferenciaErro(TransferenciaErroEntity entity) => await _dapper.ExecuteQueryAsync(async connection =>
+        {
+            var query = @"
+                            INSERT INTO [dbo].[TRANSFERENCIA_ERRO]
+                                       ([ID_TRANSACAO]
+                                       ,[DSC_ERRO])
+                                 VALUES
+                                       (@IdTransferencia
+                                       ,@DescricaoErro)
+							";
+
+            return await connection.QueryFirstOrDefaultAsync(sql: query, param: new
+            {
+                entity.IdTransferencia,
+                entity.DescricaoErro
             });
 
         });

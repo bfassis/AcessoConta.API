@@ -18,11 +18,11 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public ETipoTransacao TipoTransacao { get; protected set; }
         public EStatusTransferencia StatusTrasferencia { get; protected set; }
         public DateTime DataTransferencia { get; protected set; }
-        public TrasnferenciaErroEntity TrasnferenciaErroEntity { get; protected set; }
+        public TransferenciaErroEntity TrasnferenciaErroEntity { get; protected set; }
 
         public TransferenciaEntity()
         {
-            TrasnferenciaErroEntity = new TrasnferenciaErroEntity();
+            TrasnferenciaErroEntity = new TransferenciaErroEntity();
             DataTransferencia = DateTime.Now;
             //GerarIdTransferencia();
             TrasnferenciaErroEntity.AtribuirIdTransferencia(IdTransferencia);
@@ -32,7 +32,7 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public TransferenciaEntity(string conta, string contaOrigem, string contaDestino, decimal valor, ETipoTransacao tipoTransacao, EStatusTransferencia statusTransferencia)
         {
             Conta = conta;
-            IdTransferencia = Guid.NewGuid();
+            //IdTransferencia = Guid.NewGuid();
             ContaOrigem = contaOrigem;
             ContaDestino = contaDestino;
             Valor = valor;
@@ -70,9 +70,29 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
             Validate(entity, new TransferenciaValidator());
         }
 
-        public virtual void AtribuirTransferenciaErro(TrasnferenciaErroEntity trasnferenciaErroEntity)
+        public virtual void AtribuirTransferenciaErro(TransferenciaErroEntity trasnferenciaErroEntity)
         {
             TrasnferenciaErroEntity = trasnferenciaErroEntity;
+        }
+
+        public virtual bool ExisteErro( bool hasErro)
+        {
+            if (hasErro)
+            {
+                StatusTrasferencia = EStatusTransferencia.Erro;
+                return true;
+            }
+            else
+            {
+                StatusTrasferencia = EStatusTransferencia.Confirmado;
+                return false;
+            }
+        }
+
+        public virtual void AtribuirIdTransferencia(Guid idTransferencia)
+        {
+            IdTransferencia = idTransferencia;
+            TrasnferenciaErroEntity.AtribuirIdTransferencia(IdTransferencia);
         }
     }
 

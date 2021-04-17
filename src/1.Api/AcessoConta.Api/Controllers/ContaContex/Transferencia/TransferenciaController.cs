@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AcessoConta.Api.Controllers.ContaContex.Transferencia
@@ -24,15 +25,21 @@ namespace AcessoConta.Api.Controllers.ContaContex.Transferencia
             _transferenciaFacade = transferenciaFacade;
         }
 
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [HttpPost()]
         public async Task<ActionResult<TransferResponse>> Post(TransferRequest request)
         {
-            var result = await _transferenciaFacade.Trasnferir(request);
+            var result = await _transferenciaFacade.Transferir(request);
             return Response(result);
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<TrasactionResponse>> Get(string transactionId)
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [HttpGet("{transactionId}")]
+        public async Task<ActionResult<TrasactionResponse>> Get([FromRoute] string transactionId)
         {
             var result = await _transferenciaFacade.ConsultarTrasnferencia(transactionId);
             return Response(result);

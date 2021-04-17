@@ -17,5 +17,14 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.ReadModel
         public string IdTransferencia { get;  set; }
         public EStatusTransferencia StatusTrasferencia { get;  set; }
         public TrasnferenciaErroReadModel TrasnferenciaErroReadModel { get;  set; }
+
+        public virtual void ValidarStatusTrasnsacao()
+        {
+            if (TrasnferenciaErroReadModel != null)
+            {
+                StatusTrasferencia = EStatusTransferencia.Erro;
+            }
+        
+        }
     }
 }

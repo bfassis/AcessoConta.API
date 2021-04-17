@@ -11,10 +11,12 @@ namespace AcessoConta.Api.Common.Notifications
     {
         IReadOnlyCollection<NotificationModel> Notifications { get; }
         bool HasNotifications { get; }
+
         void AddNotification(string key, string message, ENotificationType notificationType);
         void AddNotification(string key, string message);
         void AddNotifications(IReadOnlyCollection<NotificationModel> notifications);
         void AddNotifications(IList<NotificationModel> notifications);
         void AddNotifications(ValidationResult validationResult);
+        void ClearNotifications();
     }
 }

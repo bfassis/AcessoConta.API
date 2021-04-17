@@ -30,16 +30,27 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Facade
         public async Task<TrasactionResponse> ConsultarTrasnferencia(string transactionId)
         {
             TrasactionResponse response = new TrasactionResponse();
-            //response.Data.Status = Common.Enums.Transacao.EStatusTransferencia.Confirmado.ToString();
 
+            if(string.IsNullOrEmpty(transactionId))
+            {
+                _notification.AddNotification("Erro", "O campo transactionId é obrigatorio");
+                return response;
+            }
             
-            var ret = await _transferenciaService.ConsultarTrasnferencia(transactionId);
-            response.Data = _mapper.Map<TrasactionDto>(ret);
+            var resutadoTransferencia = await _transferenciaService.ConsultarTrasnferencia(transactionId);
+
+            if (resutadoTransferencia == null)
+            {
+                _notification.AddNotification("Erro", "Transferencia não encontrada.");
+                return response;
+            }
+
+            response.Data = _mapper.Map<TrasactionDto>(resutadoTransferencia);
 
             return response;
         }
 
-        public async Task<TransferResponse> Trasnferir(TransferRequest request)
+        public async Task<TransferResponse> Transferir(TransferRequest request)
         {
             try
             {

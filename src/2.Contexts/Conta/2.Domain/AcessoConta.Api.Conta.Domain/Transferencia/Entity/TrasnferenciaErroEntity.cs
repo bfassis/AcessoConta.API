@@ -2,10 +2,10 @@
 
 namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
 {
-    public class TrasnferenciaErroEntity
+    public class TransferenciaErroEntity
     {
 
-        public TrasnferenciaErroEntity()
+        public TransferenciaErroEntity()
         { }
 
         public int Id { get; protected set; }
@@ -15,6 +15,11 @@ namespace AcessoConta.Api.Conta.Domain.Transferencia.Entity
         public virtual void AtribuirIdTransferencia(Guid? idTrasferencia)
         {
             IdTransferencia = idTrasferencia;
+        }
+
+        public virtual void AtribuirDescricaoErro(string msg)
+        {
+            DescricaoErro = msg;            
         }
     }
 }
