@@ -76,7 +76,7 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
                     switch (resposta.StatusCode)
                     {
                         case HttpStatusCode.NotFound:
-                            _notification.AddNotification("Erro ", " Invalid account number", Api.Common.Enums.Notification.ENotificationType.NotFoundResult);
+                            _notification.AddNotification("Erro ", " Numero de conta não encontrada ou Inválida.", Api.Common.Enums.Notification.ENotificationType.NotFoundResult);
                             break;
                         case HttpStatusCode.InternalServerError:
                             _notification.AddNotification("Erro ", " Problema ao acessar API Conta", Api.Common.Enums.Notification.ENotificationType.InternalServerError);
