@@ -43,6 +43,8 @@ namespace AcessoConta.Api.Controllers
                         return StatusCode((int)HttpStatusCode.InternalServerError, response);
                     case ENotificationType.BusinessRules:
                         return Conflict(response);
+                    case ENotificationType.NotFoundResult:
+                        return StatusCode((int)HttpStatusCode.NotFound, response);
                     default:
                         return BadRequest(response);
                 }

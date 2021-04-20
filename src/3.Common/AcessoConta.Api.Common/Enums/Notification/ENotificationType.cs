@@ -9,5 +9,6 @@ namespace AcessoConta.Api.Common.Enums.Notification
         Default = 0,
         InternalServerError = 1,
         BusinessRules = 2,
+        NotFoundResult = 3,
     }
 }

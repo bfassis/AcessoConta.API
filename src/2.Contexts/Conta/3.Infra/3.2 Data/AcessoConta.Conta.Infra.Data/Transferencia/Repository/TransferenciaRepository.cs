@@ -75,7 +75,7 @@ namespace AcessoConta.Conta.Infra.Data.Transferencia.Repository
             return await connection.QueryFirstOrDefaultAsync(sql: query, param: new
             {
                 entity.Conta,
-                entity.Valor,
+                @Valor = entity.Valor.ToString(),
                 @IdTransferencia = entity.IdTransferencia,
                 entity.StatusTrasferencia,
                 entity.TipoTransacao,

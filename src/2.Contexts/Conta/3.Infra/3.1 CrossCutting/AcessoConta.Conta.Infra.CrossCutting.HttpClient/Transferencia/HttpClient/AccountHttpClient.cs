@@ -42,10 +42,10 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
                     switch (resposta.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta", Api.Common.Enums.Notification.ENotificationType.InternalServerError);
                             break;
                         default:
-                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.", Api.Common.Enums.Notification.ENotificationType.Default);
                             break;
                     }
                     response.Success = false;
@@ -76,13 +76,13 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
                     switch (resposta.StatusCode)
                     {
                         case HttpStatusCode.NotFound:
-                            _notification.AddNotification("Erro ", " Invalid account number");
+                            _notification.AddNotification("Erro ", " Invalid account number", Api.Common.Enums.Notification.ENotificationType.NotFoundResult);
                             break;
                         case HttpStatusCode.InternalServerError:
-                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta", Api.Common.Enums.Notification.ENotificationType.InternalServerError);
                             break;
                         default:
-                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.", Api.Common.Enums.Notification.ENotificationType.Default);
                             break;
                     }
 
@@ -114,10 +114,10 @@ namespace AcessoConta.Conta.Infra.CrossCutting.HttpClient.Transferencia.HttpClie
                     switch (resposta.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta");
+                            _notification.AddNotification("Erro ", " Problema ao acessar API Conta", Api.Common.Enums.Notification.ENotificationType.InternalServerError);
                             break;
                         default:
-                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.");
+                            _notification.AddNotification("Erro ", " Ocorreu um erro inesperado. Tente novamente mais tarde.", Api.Common.Enums.Notification.ENotificationType.Default);
                             break;
                     }
                     response.Success = false;

@@ -45,7 +45,7 @@ namespace AcessoConta.Api.Conta.Application.Transferencia.Facade
 
                 if (resutadoTransferencia == null)
                 {
-                    _notification.AddNotification("Erro", "Transferencia não encontrada.");
+                    _notification.AddNotification("Erro", "Transferencia não encontrada.", Common.Enums.Notification.ENotificationType.NotFoundResult);
                     return response;
                 }
 
