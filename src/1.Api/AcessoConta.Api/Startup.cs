@@ -36,8 +36,6 @@ namespace AcessoConta.Api
             services.AddHttpClient("AcessoApi", opt =>
             {
                 opt.BaseAddress = new Uri("http://localhost:5000/api/");
-                //var authenticatedUser = services.BuildServiceProvider().GetRequiredService<IAuthenticatedUser>();
-                //opt.DefaultRequestHeaders.Add("Authorization", authenticatedUser.User.AcessToken);
             });
 
             services.AddSwaggerGen();
